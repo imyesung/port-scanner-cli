@@ -74,7 +74,7 @@ def scan_ports(ip, ports):
 
         # Update progress with current port
         service = COMMON_PORTS.get(port, EXTENDED_MINOR_PORTS.get(port, "Unknown Service"))
-        progress = f"  -> Progress: {idx + 1}/{total_ports} ports scanned (Current: {port}: {service})"
+        progress = f"  -> {idx + 1}/{total_ports} | {port} ({service})"
         max_length = max(max_length, len(progress))
 
         # Clear the line before printing the updated progress
@@ -97,29 +97,6 @@ def display_results(results):
         print("  No open ports found.")
     print("\n[✔] Scan completed.")
 
-def cool_exit_prompt():
-    """Prompt for another scan with a 5-second timeout."""
-    print("\n[?] Excelsior? (y/n): ", end="", flush=True)
-    choice = []
-    timer = threading.Event()
-
-    def get_input():
-        try:
-            choice.append(input().strip().lower())
-        except EOFError:
-            pass
-        finally:
-            timer.set()
-
-    thread = threading.Thread(target=get_input, daemon=True)
-    thread.start()
-    timer.wait(timeout=5)
-
-    if not choice:
-        sys.exit(0)  # Quiet exit without any additional output
-
-    return choice[0]
-
 def interactive_menu(ip):
     """Interactive menu for selecting scan options."""
     while True:
@@ -138,6 +115,7 @@ def interactive_menu(ip):
             print("\n[+] Scanning common ports...")
             results = scan_ports(ip, ports)
             display_results(results)
+            break
 
         elif choice == "2":
             # Minor extended range ports scan (includes common ports)
@@ -145,6 +123,7 @@ def interactive_menu(ip):
             print("\n[+] Scanning minor extended ports (includes common ports)...")
             results = scan_ports(ip, ports)
             display_results(results)
+            break
 
         elif choice == "3":
             # Full range scan
@@ -157,29 +136,29 @@ def interactive_menu(ip):
                 display_results(results)
             else:
                 print("[!] Full range scan canceled.")
+            break
 
         elif choice == "4":
             # Custom port range scan
-            port_range = input("Enter port range (e.g., 20-100): ").strip()
+            port_range = input("Enter port range (e.g., 20-100 or common-default): ").strip()
             try:
-                start, end = map(int, port_range.split("-"))
-                ports = range(start, end + 1)
+                if port_range.lower() == "common-default":
+                    ports = list(COMMON_PORTS.keys())
+                else:
+                    start, end = map(int, port_range.split("-"))
+                    ports = range(start, end + 1)
                 print(f"\n[+] Scanning ports {start}-{end}...")
                 results = scan_ports(ip, ports)
                 display_results(results)
             except ValueError:
-                print("[!] Invalid range. Please enter in the format 'start-end'.")
+                print("[!] Invalid range. Please enter in the format 'start-end' or type 'common-default'.")
+            break
 
         elif choice == "5":
             break
 
         else:
             print("[!] Invalid choice. Please try again.")
-
-        # Prompt for another scan
-        retry = cool_exit_prompt()
-        if retry != "y":
-            break
 
 def main():
     parser = argparse.ArgumentParser(description="Interactive Port Scanner")
