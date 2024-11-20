@@ -1,7 +1,9 @@
 # Port Scanner CLI
 ---
+
 A simple, interactive command-line tool for scanning ports on a target IP address.
 This tool supports multiple scan modes for various use cases and provides clear, actionable results.
+
 ---
 Features
 
