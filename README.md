@@ -7,20 +7,20 @@ This tool supports multiple scan modes for various use cases and provides clear,
 ---
 Features
 
-	- Multiple Scan Modes:
-	  - Common Ports (e.g., HTTP, HTTPS, FTP, SSH)
-   - Extended Ports (less-common but relevant services)
-   - Full-Range Scanning (ports 1–65535)
-   - Custom Port Ranges
+- Multiple Scan Modes:
+  - Common Ports (e.g., HTTP, HTTPS, FTP, SSH)
+  - Extended Ports (less-common but relevant services)
+  - Full-Range Scanning (ports 1–65535)
+  - Custom Port Ranges
 
- - Interactive and Intuitive:
-   - User-friendly menu-based interaction for selecting scan modes.
- - Real-Time Progress Updates:
-   - Displays scanning progress dynamically for transparency.
- - Efficient Scanning:
-   - Multithreaded for faster execution.
-	- Service Detection:
-   - Identifies the common services associated with open ports.
+- Interactive and Intuitive:
+  - User-friendly menu-based interaction for selecting scan modes.
+- Real-Time Progress Updates:
+  - Displays scanning progress dynamically for transparency.
+- Efficient Scanning:
+  - Multithreaded for faster execution.
+- Service Detection:
+  - Identifies the common services associated with open ports.
   
 
 ```
